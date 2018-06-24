@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require "scrapbox2docbase"
+
+Scrapbox2docbase::CLI.start(ARGV)
