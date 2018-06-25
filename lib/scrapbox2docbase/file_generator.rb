@@ -12,8 +12,8 @@ module Scrapbox2docbase
       pages = import("#{@input}")
       pages.each do |page|
         lines = page['lines'].map(&:chomp)
-        converted_lines = Scrapbox2docbase::Converter.new(lines).convert!
-        export(lines: converted_lines, filename: page['title'])
+        Scrapbox2docbase::Converter.new(lines).convert!
+        export(lines: lines, filename: page['title'])
       end
     end
 
