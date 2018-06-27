@@ -11,7 +11,10 @@ module Scrapbox2docbase
       # TODO: ここはhashで返す必要はないのでは
       hash = Scrapbox2docbase::Detector.new(@lines).line_numbers_of_others
       others = hash[:others].map { |number| @lines[number] }
-      Scrapbox2docbase::Converters::Heading.new(others).convert! unless others.empty?
+      unless others.empty?
+        Scrapbox2docbase::Converters::Heading.new(others).convert!
+        Scrapbox2docbase::Converters::Emphasis.new(others).convert!
+      end
 
       # 最後に'```'を追加することにより行番号がずれるので、１つずつコードブロックの変換を行う
       while has_code_block?
