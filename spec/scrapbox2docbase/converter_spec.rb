@@ -24,14 +24,5 @@ RSpec.describe Scrapbox2docbase::Converter do
   ]
 
   let(:lines) { other + code_blocks_one + code_blocks_two }
-
-  it 'should returns an array of a first code blocks(String)' do
-    code_blocks = Scrapbox2docbase::Converter.new(lines).code_block
-    expect(code_blocks).to match(code_blocks_one)
-  end
-
-  it 'should returns an array of other lines(String)' do
-    others = Scrapbox2docbase::Converter.new(lines).others
-    expect(others).to match(other)
-  end
+  # TODO: テスト書くこと
 end
