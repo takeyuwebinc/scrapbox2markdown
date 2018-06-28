@@ -1,6 +1,7 @@
 module Scrapbox2docbase
   module Converters
     class Heading
+      # [pattern, replace]
       PATTERNS = [
           [/\[\*\*\*\*\*\s(.*?)\]/, '# '],
           [/\[\*\*\*\*\s(.*?)\]/, '## '],
@@ -24,12 +25,22 @@ module Scrapbox2docbase
         end
       end
 
+      # シンプルに見出しにするだけ
+      # インラインコードのことは考慮しない
+      def self.to_headings!(line)
+        PATTERNS.each do |pattern|
+          line.gsub!(pattern[0]) { |_| pattern[1] + $1 }
+        end
+      end
+
       private
 
       # [***** Heading] => # Heading
       def to_headings!(line, pattern, unmatch)
         convertibles = Scrapbox2docbase::Tokenizer.new(line, unmatch).convertible_tokens
-        convertibles.each { |convertible| convertible.gsub!(pattern[0]) { |_| pattern[1] + $1 } }
+        convertibles.each do |convertible|
+          line.gsub!(convertible) { |match| match.sub(pattern[0]) { |_| pattern[1] + $1 }}
+        end
       end
     end
   end

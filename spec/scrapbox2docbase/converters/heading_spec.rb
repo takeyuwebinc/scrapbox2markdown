@@ -49,5 +49,17 @@ RSpec.describe Scrapbox2docbase::Converters::Heading do
 
       it { is_expected.to match(['`Some[***** Heading]Thing`']) }
     end
+
+    # １行の中に見出しとインラインコードが混在している場合
+    # このパターンはほぼないのではないかと思われるが・・・
+    context 'When a heading with extra characters is in inline code' do
+      subject(:lines) { ['[***** Heading] and `[***** Inline]`'] }
+      before do
+        converter = Scrapbox2docbase::Converters::Heading.new(lines)
+        converter.convert!
+      end
+
+      it { is_expected.to match(['# Heading and `[***** Inline]`']) }
+    end
   end
 end

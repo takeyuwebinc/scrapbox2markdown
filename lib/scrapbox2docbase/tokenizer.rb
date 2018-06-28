@@ -25,7 +25,8 @@ module Scrapbox2docbase
       unconvertible = s.scan_until(@unmatch)
       # 変換不可な語句がなければ終了
       return @convertibles << line unless unconvertible
-      @convertibles << s.pre_match
+      # s.pre_matchが空文字ならば変換対象にはならない
+      @convertibles << s.pre_match unless s.pre_match.empty?
       tokenize(s.rest)
     end
   end
