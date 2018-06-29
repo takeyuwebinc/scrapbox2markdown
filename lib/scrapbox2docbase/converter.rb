@@ -17,6 +17,8 @@ module Scrapbox2docbase
         Scrapbox2docbase::Converters::Italic.new(others).convert!
         Scrapbox2docbase::Converters::Strikethrough.new(others).convert!
         Scrapbox2docbase::Converters::List.new(others).convert!
+        # 最後にリンクの除去を行う
+        Scrapbox2docbase::Converters::Link.new(others).convert!
       end
 
       # 最後に'```'を追加することにより行番号がずれるので、１つずつコードブロックの変換を行う
