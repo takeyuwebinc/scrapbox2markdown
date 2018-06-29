@@ -22,7 +22,9 @@ module Scrapbox2docbase
       # [* Emphasis] #=> **Emphasis** これは一番小さい見出し'##### Emphasis'に該当、見出し変換で対応可
       def to_emphasis!(line, pattern, unmatch)
         convertibles = Scrapbox2docbase::Tokenizer.new(line, unmatch).convertible_tokens
-        convertibles.each { |convertible| convertible.gsub!(pattern) { |match| match.gsub(/\[{2}|\]{2}/, '**') } }
+        convertibles.each do |convertible|
+          line.gsub!(convertible) { |match| match.gsub(/\[{2}|\]{2}/, '**') }
+        end
       end
     end
   end
