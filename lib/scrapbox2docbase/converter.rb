@@ -16,6 +16,7 @@ module Scrapbox2docbase
         Scrapbox2docbase::Converters::Emphasis.new(others).convert!
         Scrapbox2docbase::Converters::Italic.new(others).convert!
         Scrapbox2docbase::Converters::Strikethrough.new(others).convert!
+        Scrapbox2docbase::Converters::List.new(others).convert!
       end
 
       # 最後に'```'を追加することにより行番号がずれるので、１つずつコードブロックの変換を行う
