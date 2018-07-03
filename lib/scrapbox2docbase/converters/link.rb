@@ -1,9 +1,12 @@
+require 'net/http'
+require 'scrapbox2docbase/gyazo'
+
 module Scrapbox2docbase
   module Converters
     class Link
       # pattern, unmatch
       PATTERNS = {
-        gyazo_link: [/\[https:\/\/(gyazo.com\/\S+)\]/, /`\[https:\/\/gyazo.com\/\S+\]`/],
+        gyazo_link: [/\[(https:\/\/gyazo.com\/\S+)\]/, /`\[https:\/\/gyazo.com\/\S+\]`/],
         hashtag: [/\#{1}(.+?)\b/, /(`\#{1}(.+?)\b`|`.+?`)/], # `#`だけのものなど、インライン内の文字`.+?`は除外
         square_blanket: [/\[{1}(.+?)\]/, /`\[{1}(.+?)\]`/],
         scrapbox_link: [/https:\/\/scrapbox.io\/\S+/, /`https:\/\/scrapbox.io\/\S+`/]
@@ -27,7 +30,12 @@ module Scrapbox2docbase
       def to_gyazo_images!(line, pattern, unmatch)
         convertibles = Scrapbox2docbase::Tokenizer.new(line, unmatch).convertible_tokens
         convertibles.each do |convertible|
-          line.gsub!(convertible) { |match| match.gsub(pattern) { |_| "![](https://i.#{$1}.png)" } }
+          line.gsub!(convertible) do |match| # lineから変換可能な語句を取得
+            match.gsub(pattern) do |_| # [https://gyazo.com/xxxx]
+              hash = Scrapbox2docbase::Gyazo.get_response($1) # gyazoのAPIを叩いてレスポンスを取得
+              "![](#{hash['url']})" # 画像へのリンクをマークダウンに埋め込み、置換する
+            end
+          end
         end
       end
 

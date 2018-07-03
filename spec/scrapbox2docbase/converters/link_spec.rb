@@ -1,36 +1,65 @@
 RSpec.describe Scrapbox2docbase::Converters::Link do
   describe '#convert!' do
-    describe 'gyazo links' do
+    describe 'Gyazo image' do
+      response = {
+        "version"=>"1.0",
+        "type"=>"photo",
+        "provider_name"=>"Gyazo",
+        "provider_url"=>"https://gyazo.com",
+        "url"=>"https://i.gyazo.com/5f93e65a3b979ae5333aca4f32600611.png",
+        "width"=>209,
+        "height"=>209,
+        "scale"=>1.0
+      }
+
+      before do
+        allow(Scrapbox2docbase::Gyazo).to receive(:get_response).and_return(response)
+        converter = Scrapbox2docbase::Converters::Link.new(line)
+        converter.convert!
+      end
+
       context 'gyazo.com link only' do
         subject(:line) { ['[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]'] }
-        before do
-          converter = Scrapbox2docbase::Converters::Link.new(line)
-          converter.convert!
-        end
         # Converts to Markdown image
         it { is_expected.to match(['![](https://i.gyazo.com/5f93e65a3b979ae5333aca4f32600611.png)']) }
       end
 
       context 'gyazo.com link and no-blankets' do
         subject(:line) { ['[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611] https://gyazo.com/5f93e65a3b979ae5333aca4f32600611'] }
-        before do
-          converter = Scrapbox2docbase::Converters::Link.new(line)
-          converter.convert!
-        end
 
         it { is_expected.to match(['![](https://i.gyazo.com/5f93e65a3b979ae5333aca4f32600611.png) https://gyazo.com/5f93e65a3b979ae5333aca4f32600611']) }
       end
 
       context 'gyazo.com link as inline code' do
         subject(:line) { ['`[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]`'] }
-        before do
-          converter = Scrapbox2docbase::Converters::Link.new(line)
-          converter.convert!
-        end
 
         it { is_expected.to match(['`[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]`']) }
       end
     end
+
+    describe 'Gyazo GIF' do
+      response = {
+        "version"=>"1.0",
+        "type"=>"photo",
+        "provider_name"=>"Gyazo",
+        "provider_url"=>"https://gyazo.com",
+        "url"=>"https://i.gyazo.com/thumb/1000/b0c628a0c3645fa013c679571e9b5df1-gif.gif",
+        "width"=>398,
+        "height"=>266,
+        "scale"=>1.0
+      }
+
+      subject(:line) { ['[https://gyazo.com/b0c628a0c3645fa013c679571e9b5df1]'] }
+
+      before do
+        allow(Scrapbox2docbase::Gyazo).to receive(:get_response).and_return(response)
+        converter = Scrapbox2docbase::Converters::Link.new(line)
+        converter.convert!
+      end
+
+      it { is_expected.to match(['![](https://i.gyazo.com/thumb/1000/b0c628a0c3645fa013c679571e9b5df1-gif.gif)']) }
+    end
+
 
     describe 'Square blankets' do
       context 'Text only' do
