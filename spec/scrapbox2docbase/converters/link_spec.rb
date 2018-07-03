@@ -1,5 +1,37 @@
 RSpec.describe Scrapbox2docbase::Converters::Link do
   describe '#convert!' do
+    describe 'gyazo links' do
+      context 'gyazo.com link only' do
+        subject(:line) { ['[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]'] }
+        before do
+          converter = Scrapbox2docbase::Converters::Link.new(line)
+          converter.convert!
+        end
+        # Converts to Markdown image
+        it { is_expected.to match(['![](https://i.gyazo.com/5f93e65a3b979ae5333aca4f32600611.png)']) }
+      end
+
+      context 'gyazo.com link and no-blankets' do
+        subject(:line) { ['[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611] https://gyazo.com/5f93e65a3b979ae5333aca4f32600611'] }
+        before do
+          converter = Scrapbox2docbase::Converters::Link.new(line)
+          converter.convert!
+        end
+
+        it { is_expected.to match(['![](https://i.gyazo.com/5f93e65a3b979ae5333aca4f32600611.png) https://gyazo.com/5f93e65a3b979ae5333aca4f32600611']) }
+      end
+
+      context 'gyazo.com link as inline code' do
+        subject(:line) { ['`[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]`'] }
+        before do
+          converter = Scrapbox2docbase::Converters::Link.new(line)
+          converter.convert!
+        end
+
+        it { is_expected.to match(['`[https://gyazo.com/5f93e65a3b979ae5333aca4f32600611]`']) }
+      end
+    end
+
     describe 'Square blankets' do
       context 'Text only' do
         # Scrapboxの内部リンク
