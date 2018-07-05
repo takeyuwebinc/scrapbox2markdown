@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "scrapbox2docbase"
+require "scrapbox2markdown"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

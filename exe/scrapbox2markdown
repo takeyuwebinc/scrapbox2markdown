@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "scrapbox2markdown"
+
+Scrapbox2markdown::CLI.start(ARGV)

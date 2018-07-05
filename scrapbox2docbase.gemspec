@@ -1,17 +1,17 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "scrapbox2docbase/version"
+require "scrapbox2markdown/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "scrapbox2docbase"
-  spec.version       = Scrapbox2docbase::VERSION
+  spec.name          = "scrapbox2markdown"
+  spec.version       = Scrapbox2markdown::VERSION
   spec.authors       = ["noriyotcp"]
   spec.email         = ["noriyo.akita@gmail.com"]
 
   spec.summary       = %q{Convert Scrapbox.io articles(JSON) to DocBase articles(Markdown).}
   spec.description   = %q{Convert Scrapbox.io articles(JSON) to DocBase articles(Markdown).}
-  spec.homepage      = "https://github.com/takeyuwebinc/scrapbox2docbase"
+  spec.homepage      = "https://github.com/takeyuwebinc/scrapbox2markdown"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

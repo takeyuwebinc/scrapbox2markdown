@@ -1,6 +1,6 @@
 {
-  "name": "scrapbox2docbase-test",
-  "displayName": "scrapbox2docbase-test",
+  "name": "scrapbox2markdown-test",
+  "displayName": "scrapbox2markdown-test",
   "exported": 1529476737,
   "pages": [
     {
@@ -71,8 +71,8 @@
         " `[- 打ち消し]` ⇒ [- 打ち消し]",
         " `[-***/ 斜体太字打ち消し]` ⇒ [-***/ 斜体太字打ち消し]",
         "code:サンプル.html",
-        " <link href=\"https://scrapbox2docbase/test.min.css\" rel=\"stylesheet\">",
-        " <script src=\"https://scrapbox2docbase/test.min.js\"></script>",
+        " <link href=\"https://scrapbox2markdown/test.min.css\" rel=\"stylesheet\">",
+        " <script src=\"https://scrapbox2markdown/test.min.js\"></script>",
         " ",
         " <div id=\"js-sample_wrapper\" class=\"videostream-HD\" align=\"center\">",
         "     <video id=\"js-sample\" data-sample_video_id=\"sample\" class=\"video-js vjs-fluid vjs-default-skin vjs-big-play-centered\">",
