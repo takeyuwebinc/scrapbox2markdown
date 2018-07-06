@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'json'
+require 'yaml'
 
 module Scrapbox2markdown
   class FileGenerator
@@ -11,10 +12,9 @@ module Scrapbox2markdown
     def generate
       pages = import("#{@input}")
       pages.each do |page|
-        header = yaml_header(page)
         lines = page['lines'].map(&:chomp)
         Scrapbox2markdown::Converter.new(lines).convert!
-        export(lines: lines.prepend(header), filename: page['title'])
+        export(lines: lines.prepend(yaml_header(page), "---\n\n"), filename: page['title'])
       end
     end
 
@@ -39,20 +39,15 @@ module Scrapbox2markdown
 
     # Markdownファイルの先頭に埋め込むため、YAML形式で出力する
     # ---
-    # title: "はじめに"
+    # title: はじめに
     # created_at: 2018-03-26 22:52:30 +0900
     # updated_at: 2018-04-21 11:51:09 +0900
     # ---
     #
     def yaml_header(page)
-      <<~YAML
-      ---
-      title: "#{page['title']}"
-      created_at: #{Time.at(page['created'])}
-      updated_at: #{Time.at(page['updated'])}
-      ---
-
-      YAML
+      { "title" => page['title'],
+        "created_at" => Time.at(page['created']),
+        "updated_at" => Time.at(page['updated']) }.to_yaml
     end
   end
 end
