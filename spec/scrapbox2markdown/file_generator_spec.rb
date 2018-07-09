@@ -1,7 +1,7 @@
 require 'pathname'
 
 RSpec.describe Scrapbox2markdown::FileGenerator do
-  output_path = 'spec/exports/generated'
+  output_path = 'tmp'
   it "generates .md from .json to #{output_path}" do
     # カレントディレクトリの.jsonからテスト用ディレクトリに.mdを生成する
     file_generator = Scrapbox2markdown::FileGenerator.new('test.json', "#{output_path}")
